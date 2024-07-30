@@ -76,6 +76,6 @@ cd Microsoft-E5-Auto-Renewal
 <a name="credits"></a>
 
 ## **❤️ Credits**
-[**Dr.Caduceus**](https://github.com/TheCaduceus): Developer of original repository (Python).
+[**Dr.Caduceus**](https://github.com/TheCaduceus): Developer of original repository (Python).<br>
 [**LawdaKaCoder**](https://github.com/lawdakacoder): Developer of Microsoft-E5-Auto-Renewal (JavaScript) and for lawda.<br>
 [**Cloudflare**](https://cloudflare.com): For workers and great documentation that no one can understand.
