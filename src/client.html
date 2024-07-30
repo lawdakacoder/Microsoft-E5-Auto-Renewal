@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Auth Client</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #121212;
+            color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            position: relative;
+            background-color: #1e1e1e;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            max-width: 400px;
+            width: 100%;
+        }
+
+        .container h1 {
+            margin-bottom: 20px;
+            font-size: 24px;
+            text-align: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container h1 .lock-icon {
+            margin-right: 10px;
+            font-size: 24px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .form-group input {
+            width: calc(100% - 22px);
+            padding: 10px;
+            border: 1px solid #444444;
+            border-radius: 4px;
+            background-color: #2e2e2e;
+            color: #ffffff;
+        }
+
+        .form-group button {
+            width: 100%;
+            padding: 10px;
+            background-color: #007BFF;
+            border: none;
+            border-radius: 4px;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .form-group button:hover {
+            background-color: #0056b3;
+        }
+
+        .form-group button .lock-icon {
+            margin-left: 10px;
+            font-size: 18px;
+            transform: scale(0);
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .form-group button:hover .lock-icon {
+            transform: scale(1) rotate(360deg);
+        }
+
+        .view-guide {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+        }
+
+        .view-guide a {
+            color: #007BFF;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
+
+        .view-guide a:hover {
+            color: #0056b3;
+        }
+
+        .view-guide a .guide-icon {
+            margin-right: 5px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="view-guide">
+            <a href="https://github.com/lawdakacoder/Microsoft-E5-Auto-Renewal" target="_blank" title="View Guide">
+                <i class="fas fa-info-circle guide-icon"></i>
+            </a>
+        </div>
+        <h1><i class="fas fa-lock lock-icon"></i> Auth Client</h1>
+        <form id="authForm">
+            <div class="form-group">
+                <label for="clientId">Client ID</label>
+                <input type="text" id="clientId" name="client_id" required>
+            </div>
+            <div class="form-group">
+                <label for="clientSecret">Client Secret</label>
+                <input type="password" id="clientSecret" name="client_secret" required>
+            </div>
+            <div class="form-group">
+                <button type="submit">
+                    Authorize
+                    <i class="fas fa-lock lock-icon"></i>
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('authForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const clientId = document.getElementById('clientId').value;
+            const clientSecret = document.getElementById('clientSecret').value;
+            const url = `{{redirect_url}}?client_id=${encodeURIComponent(clientId)}&client_secret=${encodeURIComponent(clientSecret)}&src=form`;
+            window.location.href = url;
+        });
+    </script>
+</body>
+
+</html>

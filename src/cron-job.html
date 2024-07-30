@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cron Job Details</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #121212;
+            color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .container {
+            background-color: #1e1e1e;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            max-width: 400px;
+            width: 90%;
+            text-align: center;
+        }
+
+        .container h1 {
+            margin-bottom: 20px;
+            font-size: 24px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .container .icon {
+            margin-right: 10px;
+        }
+
+        .field-container {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+
+        .field-label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .field {
+            background-color: #2e2e2e;
+            padding: 10px;
+            border: 1px solid #444444;
+            border-radius: 4px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .field code {
+            max-height: 20vh;
+            overflow: auto;
+            white-space: pre-wrap;
+        }
+
+        .copy-icon {
+            cursor: pointer;
+            margin-left: 10px;
+            font-size: 18px;
+        }
+
+        .copy-icon:hover {
+            color: #007BFF;
+        }
+
+        .copy-icon.copied {
+            color: #28a745;
+            animation: fadeOut 1.5s forwards;
+        }
+
+        @keyframes fadeOut {
+            0% {
+                opacity: 1;
+            }
+            100% {
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1><i class="fas fa-clock icon"></i> Cron Job</h1>
+
+        <div class="field-container">
+            <div class="field-label">URL</div>
+            <div class="field">
+                <code id="URLText">{{call_url}}</code>
+                <i class="fas fa-copy copy-icon" onclick="copyToClipboard('URLText', this)"></i>
+            </div>
+        </div>
+
+        <div class="field-container">
+            <div class="field-label">Method</div>
+            <div class="field">
+                <code id="RequestMethodText">POST</code>
+                <i class="fas fa-copy copy-icon" onclick="copyToClipboard('RequestMethodText', this)"></i>
+            </div>
+        </div>
+
+        <div class="field-container">
+            <div class="field-label">Interval</div>
+            <div class="field">
+                <code id="IntervalText">0 * * * *</code>
+                <i class="fas fa-copy copy-icon" onclick="copyToClipboard('IntervalText', this)"></i>
+            </div>
+        </div>
+
+        <div class="field-container">
+            <div class="field-label">TimeZone</div>
+            <div class="field">
+                <code id="TimeZoneText">Loading...</code>
+                <i class="fas fa-copy copy-icon" onclick="copyToClipboard('TimeZoneText', this)"></i>
+            </div>
+        </div>
+
+        <div class="field-container">
+            <div class="field-label">Headers</div>
+            <div class="field">
+                <code id="HeadersText">{"Content-Type":"application/json"}</code>
+                <i class="fas fa-copy copy-icon" onclick="copyToClipboard('HeadersText', this)"></i>
+            </div>
+        </div>
+
+        <div class="field-container">
+            <div class="field-label">Body</div>
+            <div class="field">
+                <code id="BodyText">{ "client_id": "{{client_id}}", "client_secret": "{{client_secret}}", "refresh_token": "{{refresh_token}}" }</code>
+                <i class="fas fa-copy copy-icon" onclick="copyToClipboard('BodyText', this)"></i>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function copyToClipboard(elementId, iconElement) {
+            const textToCopy = document.getElementById(elementId).textContent;
+            navigator.clipboard.writeText(textToCopy)
+                .then(() => {
+                    iconElement.classList.remove('fa-copy');
+                    iconElement.classList.add('fa-check');
+                    iconElement.classList.add('copied');
+                    setTimeout(() => {
+                        iconElement.classList.remove('fa-check');
+                        iconElement.classList.add('fa-copy');
+                        iconElement.classList.remove('copied');
+                    }, 1500);
+                })
+                .catch(() => alert('Could not copy text.'));
+        }
+
+        function updateTimeZone() {
+            const timezoneElement = document.getElementById('TimeZoneText');
+            try {
+                const timezone = Intl.DateTimeFormat().resolvedOptions().timeZone || 'UTC';
+                timezoneElement.textContent = timezone;
+            } catch (e) {
+                timezoneElement.textContent = 'UTC';
+            }
+        }
+
+        function formatJSON(elementId) {
+            const element = document.getElementById(elementId);
+            try {
+                const json = JSON.parse(element.textContent);
+                const formatted = JSON.stringify(json, null, 2);
+                element.textContent = formatted;
+            } catch (e) {
+                element.textContent = 'Invalid JSON';
+            }
+        }
+
+        window.onload = function() {
+            updateTimeZone();
+            formatJSON('HeadersText');
+            formatJSON('BodyText');
+        }
+    </script>
+</body>
+
+</html>
